@@ -9,6 +9,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileMenuHandler implements ActionListener{
 
+	/**
+	 * This internal class is for exception handling in the case that an incorrect file is opened
+	 */
 	public class IllegalFileException extends IllegalArgumentException{
 		public IllegalFileException(String message){
 			super(message);
@@ -40,29 +43,40 @@ public class FileMenuHandler implements ActionListener{
 	}
 
 	/**
-	 * Opens the small window to select file from computer
+	 * Opens the small window to select file from computer, also prompts the user for location data
 	 */
 	private void openFile()	{
 		JFileChooser chooser = new JFileChooser();
+
+		//to restrict to jpg and jpeg file types
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG and JPEG FILE TYPES", "jpeg", "jpg");
 		chooser.setFileFilter(filter);
+
+		//to verify an image was read properly
 		int retVal = chooser.showOpenDialog(null);
-		if(retVal == JFileChooser.APPROVE_OPTION)
-			myframe.image = chooser.getSelectedFile();
+		if(retVal == JFileChooser.CANCEL_OPTION)
+			return;
 		else if (retVal == JFileChooser.ERROR_OPTION)
 			throw new IllegalFileException("File Error, ERROR_OPTION Flagged");
+
+		//to obtain location data and verify format for proper zip codes
 		String zip = JOptionPane.showInputDialog(null,"Please enter the zip code for this location");
 		Pattern p;
 		Matcher m;
 		String zipPattern = "^(\\d{5})(-\\d{4})?$";
 		p = Pattern.compile(zipPattern);
 		m = p.matcher(zip);
+
+		//To ensure proper zipcode format is entered
 		while(!m.matches() && !zip.isEmpty()){
 			zip = JOptionPane.showInputDialog(null,"Invalid Zip, Please enter the zip code for this location, blank for" +
 					" exit");
 			m = p.matcher(zip);
 		}
-		if(!zip.isEmpty()){
+
+		//to add the file and zip provided they are both valid
+		if(!zip.isEmpty() && retVal == JFileChooser.APPROVE_OPTION){
+			myframe.image = chooser.getSelectedFile();
 			myframe.zipCode = zip;
 		}
 
