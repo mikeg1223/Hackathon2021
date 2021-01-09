@@ -17,18 +17,18 @@ public class FileMenuHandler implements ActionListener{
 			super(message);
 		}
 	}
-	
+
 	Window myframe;
 
-	FileMenuHandler (Window frame){			
+	FileMenuHandler (Window frame){
 		myframe = frame;
 	}
-	
+
 	/**
 	 * Detects when user clicks on "Open" or "Quit"
 	 * and performs the respective actions
 	 */
-	public void actionPerformed(ActionEvent ae) {	
+	public void actionPerformed(ActionEvent ae) {
 		String eventName = ae.getActionCommand();
 		if(eventName.equals("Open")) {
 			try {
@@ -61,25 +61,27 @@ public class FileMenuHandler implements ActionListener{
 
 		//to obtain location data and verify format for proper zip codes
 		String zip = JOptionPane.showInputDialog(null,"Please enter the zip code for this location");
-		Pattern p;
-		Matcher m;
-		String zipPattern = "^(\\d{5})(-\\d{4})?$";
-		p = Pattern.compile(zipPattern);
-		m = p.matcher(zip);
-
-		//To ensure proper zipcode format is entered
-		while(!m.matches() && !zip.isEmpty()){
-			zip = JOptionPane.showInputDialog(null,"Invalid Zip, Please enter the zip code for this location, blank for" +
-					" exit");
+		if (zip != null) {
+			Pattern p;
+			Matcher m;
+			String zipPattern = "^(\\d{5})(-\\d{4})?$";
+			p = Pattern.compile(zipPattern);
 			m = p.matcher(zip);
-		}
 
-		//to add the file and zip provided they are both valid
-		if(!zip.isEmpty() && retVal == JFileChooser.APPROVE_OPTION){
-			myframe.image = chooser.getSelectedFile();
-			myframe.zipCode = zip;
+			//To ensure proper zipcode format is entered
+			while (!m.matches() && !zip.isEmpty()) {
+				zip = JOptionPane.showInputDialog(null, "Invalid Zip, Please enter the zip code for this location, blank for" +
+						" exit");
+				m = p.matcher(zip);
+			}
+			//to add the file and zip provided they are both valid
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				myframe.image = chooser.getSelectedFile();
+				myframe.zipCode = zip;
+			}
+			DirectionChoiceHandler cdirection = new DirectionChoiceHandler(myframe);
 		}
 
 	}
-	
+
 }

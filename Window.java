@@ -10,18 +10,20 @@ public class Window extends JFrame{
 	final static String DISPLAY_ID = "display";
 	protected File image;
 	protected String zipCode;
+	protected String direction;
 
 	/**
-	 * Builds the base of the program's window 
+	 * Builds the base of the program's window
 	 */
 	public Window(){
 		super();
 		image = null;
 		zipCode = null;
+		direction = null;
 		this.setSize(900, 500);
 		this.setTitle("Fire Detection System FDS");
 		this.setDefaultCloseOperation(Window.EXIT_ON_CLOSE); //makes sure to close the window properly when clicking on 'x'
-		
+
 		JMenuBar bar = new JMenuBar();
 		createFileMenu(bar); //calls the method below
 		this.setJMenuBar(bar); //put the menu bar on the window
@@ -30,10 +32,10 @@ public class Window extends JFrame{
 
 		this.setVisible(true);
 	}
-	
-	
+
+
 	private void createFileMenu(JMenuBar bar){
-		JMenu file = new JMenu("File"); //name of the menu 
+		JMenu file = new JMenu("File"); //name of the menu
 		JMenuItem open, quit;
 		file.add(open = new JMenuItem("Open")); //name of the items of the menu
 		file.add(quit = new JMenuItem("Quit"));
@@ -44,7 +46,7 @@ public class Window extends JFrame{
 	}
 
 	private void createCardLayout(Container pane){
-		JPanel introCard = new JPanel(); //card used to display the introdctory instructions
+		JPanel introCard = new JPanel(); //card used to display the introductory instructions
 		JPanel displayCard = new JPanel(); //card used to display processed data and imaging
 		JPanel cards = new JPanel(new CardLayout()); //panel used to hold card in a card layout.
 
@@ -66,4 +68,15 @@ public class Window extends JFrame{
 
 		pane.add(cards, BorderLayout.CENTER);
 	}
-}
+
+	protected void swapCard(int n){
+
+	}
+	protected void clearDisplayCard(){
+
+	}
+  /*  protected static String getDirection(){
+        DirectionChoiceHandler temp = new DirectionChoiceHandler();
+        if(temp.answer)
+        return temp.answer;
+    }*/
