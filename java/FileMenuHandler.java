@@ -1,7 +1,7 @@
 package hackathon2021;
 
+
 import java.awt.event.*;
-import java.io.File;
 import javax.swing.*;
 import java.util.regex.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -75,13 +75,13 @@ public class FileMenuHandler implements ActionListener{
 				m = p.matcher(zip);
 			}
 			//to add the file and zip provided they are both valid
-			if (retVal == JFileChooser.APPROVE_OPTION) {
+			if (retVal == JFileChooser.APPROVE_OPTION && !zip.isEmpty()) {
 				myframe.image = chooser.getSelectedFile();
 				myframe.zipCode = zip;
+				myframe.script.setFilename(myframe.image.getAbsolutePath());
+				myframe.swapCard(myframe.DIRECTION_ID);
+				myframe.pack();
 			}
-			DirectionChoiceHandler cdirection = new DirectionChoiceHandler(myframe);
 		}
-
 	}
-
 }

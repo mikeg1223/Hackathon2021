@@ -1,8 +1,9 @@
 # Hackathon2021
 ## Work left:
 
-- Need to implement methods for processing image in general on the selected image
-- Need to implement CardLayout method for switching display once an image has been loaded
+1. Connect Java UI with Python script
+2. Need to implement CardLayout method for switching display once an image has been loaded
+3. implement web scraping
 
 
 ## To run python scripts via command line:

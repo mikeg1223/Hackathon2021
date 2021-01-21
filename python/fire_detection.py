@@ -2,12 +2,14 @@ import numpy as np
 from PIL import Image
 import tensorflow as tf
 
+import sys
+
 # Enter model filepath
 path_to_model = './fire_detector.h5'
 
 fire_detector = tf.keras.models.load_model(path_to_model)
 
-image_path = input("Enter filepath to an image: ")
+image_path = sys.argv[1] if len(sys.argv) > 1 else input("Enter filepath to an image: ")
 image = tf.expand_dims(
     tf.keras.preprocessing.image.smart_resize(
         tf.convert_to_tensor(
