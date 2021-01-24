@@ -1,4 +1,4 @@
-package hackathon2021;
+package java;
 
 public class Main {
 	public static void main(String[] args) {

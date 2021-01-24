@@ -1,4 +1,4 @@
-package hackathon2021;
+package java;
 
 import java.awt.event.*;
 import javax.swing.*;

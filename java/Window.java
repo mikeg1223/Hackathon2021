@@ -1,4 +1,4 @@
-package hackathon2021;
+package java;
 
 import javax.swing.*;
 import java.io.File;
@@ -91,4 +91,5 @@ public class Window extends JFrame{
 		display.repaint();
 	}
 
+}
 }
