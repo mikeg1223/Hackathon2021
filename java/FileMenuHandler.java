@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-// package javaClasses;
-=======
-package java;
->>>>>>> 308059aa0e5a0234c25ee50015ef1532999f8128
-
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.regex.*;

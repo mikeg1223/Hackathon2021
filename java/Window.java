@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-// package javaClasses;
-=======
-package java;
->>>>>>> 308059aa0e5a0234c25ee50015ef1532999f8128
 
 import javax.swing.*;
 import java.io.File;
@@ -95,5 +90,5 @@ public class Window extends JFrame{
 		display.repaint();
 	}
 
-}
+
 }

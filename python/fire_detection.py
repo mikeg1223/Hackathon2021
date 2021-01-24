@@ -4,7 +4,7 @@ import tensorflow as tf
 import sys
 
 # Enter model filepath
-path_to_model = './resources/fire_detector.h5'
+path_to_model = '../python/resources/fire_detector.h5'
 
 fire_detector = tf.keras.models.load_model(path_to_model)
 

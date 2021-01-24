@@ -1,5 +1,3 @@
-package java;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -27,22 +25,20 @@ public class PyScript{
         System.out.println(path);
         myframe.swapCard(Window.DISPLAY_ID);
         path += "\\..\\python\\";
-        pythonVenv = "source " + path + "venv\\Scripts\\activate";
-        // pythonVenv = "..\\python\\venv\\Scripts\\activate.bat";
+        // pythonVenv = "source " + path + "venv\\Scripts\\activate";
+        pythonVenv = "venv\\Scripts\\activate.bat";
         String coords = " "+myframe.latitude + " " + myframe.longitude;
         String date = " " + myframe.imageDate;
-        pythonVenv = "source " + path + "venv\\Scripts\\activate";
-        //pythonVenv = "src\\python\\venv\\Scripts\\activate.bat";
         if(filename.isEmpty())
             throw new IllegalArgumentException("File is empty");
         try {
-            System.out.println(pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
-            Process p = Runtime.getRuntime().exec(pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
+            System.out.println(path + pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
+            Process p = Runtime.getRuntime().exec(path + pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             verdict = in.readLine();
             System.out.println(verdict);
             if (verdict.equals("NO FIRE")) {
-                p = Runtime.getRuntime().exec(pythonVenv + " && python " + path + pythonFDetection + coords + date);
+                p = Runtime.getRuntime().exec(path + pythonVenv + " && python " + path + pythonHSDetection + coords + date);
                 in = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 verdict = in.readLine();
             }

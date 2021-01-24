@@ -11,7 +11,7 @@ from catboost import CatBoostClassifier
 
 API_KEY = 'KLVKNlEgezMFZUhLNCrgSxFJfTgGbOAx'
 
-us_stations = pd.read_csv('./resources/us_stations.csv')
+us_stations = pd.read_csv('../python/resources/us_stations.csv')
 
 def get_stations(stations, knn, lat, lng):
     neighbors = knn.kneighbors([[lat, lng]])[1]
@@ -109,12 +109,12 @@ model_input = preprocess_inputs(
 model_input = np.expand_dims(model_input, axis=0)
 print(model_input.shape)
 
-scaler = load('./resources/scaler.bin')
+scaler = load('../python/resources/scaler.bin')
 model_input = scaler.transform(model_input)
 
 
 model = CatBoostClassifier()
-model.load_model('./resources/hotspot_detector.h5')
+model.load_model('../python/resources/hotspot_detector.h5')
 
 prediction = model.predict(model_input)
 
