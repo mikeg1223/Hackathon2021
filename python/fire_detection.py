@@ -21,6 +21,8 @@ image = tf.expand_dims(
 
 prediction = fire_detector.predict(image)
 
+
+
 if int(prediction) == 1:
     print("FIRE")
 else:
