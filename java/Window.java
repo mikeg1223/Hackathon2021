@@ -1,6 +1,5 @@
 package hackathon2021;
 
-
 import javax.swing.*;
 import java.io.File;
 import java.awt.*;
@@ -11,6 +10,7 @@ public class Window extends JFrame{
 	final static String INTRO_ID = "intro";
 	final static String DISPLAY_ID = "display";
 	protected File image;
+	protected String imageDate;
 	protected PyScript script;
 	protected String latitude;
 	protected String longitude;
@@ -26,6 +26,7 @@ public class Window extends JFrame{
 		image = null;
 		latitude = null;
 		longitude = null;
+		imageDate=null;
 		script = s;
 		s.setMyFrame(this);
 		this.setSize(900, 500);
@@ -43,6 +44,52 @@ public class Window extends JFrame{
 		this.setVisible(true);
 	}
 
+
+	private void createFileMenu(JMenuBar bar){
+		JMenu file = new JMenu("File"); //name of the menu
+		JMenuItem open, quit;
+		file.add(open = new JMenuItem("Open")); //name of the items of the menu
+		file.add(quit = new JMenuItem("Quit"));
+		FileMenuHandler fmh = new FileMenuHandler(this); //creating a listener to handle clicks of these items
+		open.addActionListener(fmh);
+		quit.addActionListener(fmh);
+		bar.add(file); //adds File to the menu bar
+	}
+
+	private void createCardLayout(Container pane){
+		JPanel introCard = new JPanel(); //card used to display the introductory instructions
+		JPanel displayCard = new JPanel(); //card used to display processed data and imaging
+
+
+		//instructional JLabel for user, adds to intro card
+		JLabel introInstructions = new JLabel("<html><h2>Fire Detection and Prediction System</h2><hr>" +
+				"<ol><li>Select File</li><li>Click Open</li><li>Select the image file you wish to detect and " +
+				"predict for</li><li>Enter the Zip code and cardinal direction that the top of the image is facing</li>" +
+				"</ol></html>");
+		introCard.add(introInstructions);
+
+		//placeholder text to be overwritten once a file is selected, added to display card
+		JLabel displayCardHolder = new JLabel("Your image is being processed now. Please wait.");
+		displayCard.add(displayCardHolder);
+		display = displayCard;
+
+		//to add the intro, direction, and display cards to the holding panel using INTRO_ID, DIRECTION_ID, DISPLAY_ID as keys
+		cardHolder.add(introCard, INTRO_ID);
+		cardHolder.add(displayCard, DISPLAY_ID);
+
+		//to add holding pane to frame
+		pane.add(cardHolder, BorderLayout.CENTER);
+	}
+
+	protected void swapCard(String n){
+		cl.show(cardHolder, n);
+	}
+	protected void clearDisplayCard(){
+		display.removeAll();
+		display.revalidate();
+		display.repaint();
+	}
+}
 
 	private void createFileMenu(JMenuBar bar){
 		JMenu file = new JMenu("File"); //name of the menu

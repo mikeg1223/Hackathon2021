@@ -1,6 +1,5 @@
 package hackathon2021;
 
-
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.regex.*;
@@ -67,7 +66,7 @@ public class FileMenuHandler implements ActionListener{
 		if(lat != null){
 			Matcher m;
 			m = p.matcher(lat);
-			while(!m.matches()){
+			while(!m.matches() && !lat.isEmpty()){
 				lat = JOptionPane.showInputDialog(null, "Invalid latitude, Please enter the latitude for this location, blank for" +
 						" exit");
 				m = p.matcher(lat);
@@ -83,7 +82,7 @@ public class FileMenuHandler implements ActionListener{
 			Matcher n;
 			n = p.matcher(lon);
 
-			while (!n.matches()) {
+			while (!n.matches() && !lon.isEmpty()) {
 				lon = JOptionPane.showInputDialog(null, "Invalid longitude, Please enter the longitude for this location, blank for" +
 						" exit");
 				n = p.matcher(lon);
@@ -93,11 +92,30 @@ public class FileMenuHandler implements ActionListener{
 		}
 		else
 			return;
+
+		String date = JOptionPane.showInputDialog(null, "Please enter the date in yyyy-mm-dd format");
+		String datePattern = "^\\d{4}-[0-1]\\d-[0-3]\\d$";
+		p = Pattern.compile(datePattern);
+		if(date != null){
+			Matcher m;
+			m = p.matcher(date);
+			while(!m.matches() && !date.isEmpty()){
+				lat = JOptionPane.showInputDialog(null, "Invalid date, Please enter the date as yyyy-mm-dd, blank for" +
+						" exit");
+				m = p.matcher(lat);
+			}
+			if(lat.isEmpty())
+				return;
+		}
+		else
+			return;
+
 		//to add the file and zip provided they are both valid
-		if (retVal == JFileChooser.APPROVE_OPTION && !lat.isEmpty() && !lon.isEmpty()) {
+		if (retVal == JFileChooser.APPROVE_OPTION && !lat.isEmpty() && !lon.isEmpty() && !date.isEmpty()) {
 			myframe.image = chooser.getSelectedFile();
 			myframe.longitude = lon;
 			myframe.latitude = lat;
+			myframe.imageDate = date;
 			myframe.script.setFilename(myframe.image.getAbsolutePath());
 			myframe.script.run();
 		}
