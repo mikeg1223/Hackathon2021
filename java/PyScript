@@ -7,11 +7,15 @@ public class PyScript{
     protected String pythonVenv;
     protected String filename;
     protected String verdict;
+    protected Window myframe;
 
     public PyScript(){
         filename = "";
         verdict = "";
         pythonVenv = "";
+    }
+    public void setMyFrame(Window mf){
+        myframe = mf;
     }
     public void run(){
         String path = System.getProperty("user.dir");
@@ -19,15 +23,18 @@ public class PyScript{
         path += "\\src\\Python\\";
         pythonVenv = "source " + path + "venv\\Scripts\\activate";
         //pythonVenv = "src\\Python\\venv\\Scripts\\activate.bat";
+
+        String coords = " "+myframe.latitude + " " + myframe.longitude;
+
         if(filename.isEmpty())
             throw new IllegalArgumentException("File is empty");
         try {
-            Process p = Runtime.getRuntime().exec(pythonVenv+" && python " + path + pythonScript + filename);
+            Process p = Runtime.getRuntime().exec(pythonVenv+" && python " + path + pythonScript + filename + coords);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             verdict = in.readLine();
             System.out.println(verdict);
         }catch(Exception e){
-            System.out.println("Exception caught in PyScript.run()");
+            System.out.println(e.getLocalizedMessage());
         }
     }
     public void setFilename(String f){

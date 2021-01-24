@@ -59,29 +59,47 @@ public class FileMenuHandler implements ActionListener{
 		else if (retVal == JFileChooser.ERROR_OPTION)
 			throw new IllegalFileException("File Error, ERROR_OPTION Flagged");
 
-		//to obtain location data and verify format for proper zip codes
-		String zip = JOptionPane.showInputDialog(null,"Please enter the zip code for this location");
-		if (zip != null) {
-			Pattern p;
-			Matcher m;
-			String zipPattern = "^(\\d{5})(-\\d{4})?$";
-			p = Pattern.compile(zipPattern);
-			m = p.matcher(zip);
+		Pattern p;
+		String latLonPattern = "^(-)?(\\d*\\.\\d*)$";
+		p = Pattern.compile(latLonPattern);
 
-			//To ensure proper zipcode format is entered
-			while (!m.matches() && !zip.isEmpty()) {
-				zip = JOptionPane.showInputDialog(null, "Invalid Zip, Please enter the zip code for this location, blank for" +
+		String lat = JOptionPane.showInputDialog(null,"Please enter the Latitude this location");
+		if(lat != null){
+			Matcher m;
+			m = p.matcher(lat);
+			while(!m.matches()){
+				lat = JOptionPane.showInputDialog(null, "Invalid latitude, Please enter the latitude for this location, blank for" +
 						" exit");
-				m = p.matcher(zip);
+				m = p.matcher(lat);
 			}
-			//to add the file and zip provided they are both valid
-			if (retVal == JFileChooser.APPROVE_OPTION && !zip.isEmpty()) {
-				myframe.image = chooser.getSelectedFile();
-				myframe.zipCode = zip;
-				myframe.script.setFilename(myframe.image.getAbsolutePath());
-				myframe.swapCard(myframe.DIRECTION_ID);
-				myframe.pack();
+			if(lat.isEmpty())
+				return;
+		}
+		else
+			return;
+
+		String lon = JOptionPane.showInputDialog(null,"Please enter the Longitude for this location");
+		if(lon != null) {
+			Matcher n;
+			n = p.matcher(lon);
+
+			while (!n.matches()) {
+				lon = JOptionPane.showInputDialog(null, "Invalid longitude, Please enter the longitude for this location, blank for" +
+						" exit");
+				n = p.matcher(lon);
 			}
+			if(lon.isEmpty())
+				return;
+		}
+		else
+			return;
+		//to add the file and zip provided they are both valid
+		if (retVal == JFileChooser.APPROVE_OPTION && !lat.isEmpty() && !lon.isEmpty()) {
+			myframe.image = chooser.getSelectedFile();
+			myframe.longitude = lon;
+			myframe.latitude = lat;
+			myframe.script.setFilename(myframe.image.getAbsolutePath());
+			myframe.script.run();
 		}
 	}
 }
