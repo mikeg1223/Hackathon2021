@@ -6,11 +6,12 @@ from sklearn.preprocessing import StandardScaler
 import requests
 import datetime
 import sys
-import tensorflow
+from joblib import load
+from catboost import CatBoostClassifier
 
 API_KEY = 'KLVKNlEgezMFZUhLNCrgSxFJfTgGbOAx'
 
-us_stations = pd.read_csv('./csv/us_stations.csv')
+us_stations = pd.read_csv('./resources/us_stations.csv')
 
 def get_stations(stations, knn, lat, lng):
     neighbors = knn.kneighbors([[lat, lng]])[1]
@@ -63,7 +64,7 @@ def parse_weather_data(response):
 def get_start_date(end_date):
     return str(datetime.date.fromisoformat(end_date) - datetime.timedelta(days=14))
 
-def preprocess_inputs(lat, lng, date, tmax, tmin, prcp, snow, scaler):
+def preprocess_inputs(lat, lng, date, tmax, tmin, prcp, snow):
     # Process date
     date = datetime.date.fromisoformat(date)
     year = date.year
@@ -72,8 +73,7 @@ def preprocess_inputs(lat, lng, date, tmax, tmin, prcp, snow, scaler):
     
     # Create NumPy array and scale
     x = np.array([lat, lng, year, month, day, tmax, tmin, prcp, snow])
-    x = scaler.transform(x)
-    
+
     return x
     
 latitude = sys.argv[1]
@@ -105,13 +105,19 @@ model_input = preprocess_inputs(
     snow=snow
 )
 
-model = tf.keras.Model()
-model.load('./models/hotspot_detector.h5')
+model_input = np.expand_dims(model_input, axis=0)
+print(model_input.shape)
 
-pred = np.squeeze(model.predict(model_input))
-pred = pred >= 0.5
+scaler = load('./resources/scaler.bin')
+model_input = scaler.transform(model_input)
 
-if pred == True:
+
+model = CatBoostClassifier()
+model.load_model('./resources/hotspot_detector.h5')
+
+prediction = model.predict(model_input)
+
+if prediction == 1:
     print("HOTSPOT")
 else:
     print("SAFE")
