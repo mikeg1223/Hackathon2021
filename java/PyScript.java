@@ -1,5 +1,5 @@
-package hackathon2021;
-package Java;
+// package javaClasses;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -7,7 +7,7 @@ import java.io.*;
 public class PyScript{
 
     final protected String pythonFDetection = "fire_detection.py ";
-    final protected String pythingHSDetection = "hotspot.detection.py";
+    final protected String pythingHSDetection = "hotspot_detection.py ";
     protected String pythonVenv;
     protected String filename;
     protected String verdict;
@@ -23,15 +23,17 @@ public class PyScript{
     }
     public void run(){
         String path = System.getProperty("user.dir");
+        System.out.println(path);
         myframe.swapCard(Window.DISPLAY_ID);
-        path += "\\src\\Python\\";
-        pythonVenv = "source " + path + "venv\\Scripts\\activate";
-        //pythonVenv = "src\\Python\\venv\\Scripts\\activate.bat";
+        path += "\\..\\python\\";
+        // pythonVenv = "source " + path + "venv\\Scripts\\activate";
+        pythonVenv = "..\\python\\venv\\Scripts\\activate.bat";
         String coords = " "+myframe.latitude + " " + myframe.longitude;
         String date = " " + myframe.imageDate;
         if(filename.isEmpty())
             throw new IllegalArgumentException("File is empty");
         try {
+            System.out.println(pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             Process p = Runtime.getRuntime().exec(pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             verdict = in.readLine();
