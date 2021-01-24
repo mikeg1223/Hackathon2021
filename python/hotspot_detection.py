@@ -107,7 +107,6 @@ model_input = preprocess_inputs(
 )
 
 model_input = np.expand_dims(model_input, axis=0)
-print(model_input.shape)
 
 scaler = load('../python/resources/scaler.bin')
 model_input = scaler.transform(model_input)

@@ -6,15 +6,17 @@ import java.io.*;
 public class PyScript{
 
     final protected String pythonFDetection = "fire_detection.py ";
-    final protected String pythingHSDetection = "hotspot_detection.py ";
+    final protected String pythonHSDetection = "hotspot_detection.py ";
     protected String pythonVenv;
     protected String filename;
-    protected String verdict;
+    protected String verdict1;
+    protected String verdict2;
     protected Window myframe;
 
     public PyScript(){
         filename = "";
-        verdict = "";
+        verdict1 = "";
+        verdict2 = "";
         pythonVenv = "";
     }
     public void setMyFrame(Window mf){
@@ -35,20 +37,21 @@ public class PyScript{
             System.out.println(path + pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             Process p = Runtime.getRuntime().exec(path + pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            verdict = in.readLine();
-            System.out.println(verdict);
-            if (verdict.equals("NO FIRE")) {
+            verdict1 = in.readLine();
+            System.out.println(verdict1);
+            if (verdict1.equals("NO FIRE")) {
                 p = Runtime.getRuntime().exec(path + pythonVenv + " && python " + path + pythonHSDetection + coords + date);
                 in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                verdict = in.readLine();
+                verdict2 = in.readLine();
+                System.out.println(verdict2);
             }
             myframe.clearDisplayCard();
-            JLabel label = new JLabel(verdict);
+            JLabel label = new JLabel(verdict1 + " " + verdict2);
             label.setFont(new Font("Sans-Serif", Font.BOLD, 48));
             label.setForeground(Color.red);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
-            myframe.display.add(label, BorderLayout.CENTER);
+            myframe.display.add(label, BorderLayout.NORTH);
             myframe.display.add(new JLabel(new ImageIcon(filename)), BorderLayout.CENTER);
             myframe.pack();
         }catch(Exception e){
