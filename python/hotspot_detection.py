@@ -75,7 +75,8 @@ def preprocess_inputs(lat, lng, date, tmax, tmin, prcp, snow):
     x = np.array([lat, lng, year, month, day, tmax, tmin, prcp, snow])
 
     return x
-    
+
+#comman line calls
 latitude = sys.argv[1]
 longitude = sys.argv[2]
 date = sys.argv[3]
