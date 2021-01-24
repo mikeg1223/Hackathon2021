@@ -1,8 +1,9 @@
-// package javaClasses;
+package java;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+
 
 public class PyScript{
 
@@ -26,10 +27,12 @@ public class PyScript{
         System.out.println(path);
         myframe.swapCard(Window.DISPLAY_ID);
         path += "\\..\\python\\";
-        // pythonVenv = "source " + path + "venv\\Scripts\\activate";
-        pythonVenv = "..\\python\\venv\\Scripts\\activate.bat";
+        pythonVenv = "source " + path + "venv\\Scripts\\activate";
+        // pythonVenv = "..\\python\\venv\\Scripts\\activate.bat";
         String coords = " "+myframe.latitude + " " + myframe.longitude;
         String date = " " + myframe.imageDate;
+        pythonVenv = "source " + path + "venv\\Scripts\\activate";
+        //pythonVenv = "src\\python\\venv\\Scripts\\activate.bat";
         if(filename.isEmpty())
             throw new IllegalArgumentException("File is empty");
         try {
@@ -37,25 +40,26 @@ public class PyScript{
             Process p = Runtime.getRuntime().exec(pythonVenv + " && python " + path + pythonFDetection + filename + coords + date);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             verdict = in.readLine();
+            System.out.println(verdict);
             if (verdict.equals("NO FIRE")) {
                 p = Runtime.getRuntime().exec(pythonVenv + " && python " + path + pythonFDetection + coords + date);
                 in = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 verdict = in.readLine();
             }
-                myframe.clearDisplayCard();
-                JLabel label = new JLabel(verdict);
-                label.setFont(new Font("Sans-Serif", Font.BOLD, 48));
-                label.setForeground(Color.red);
-                label.setHorizontalAlignment(JLabel.CENTER);
-                label.setVerticalAlignment(JLabel.CENTER);
-                myframe.display.add(label, BorderLayout.CENTER);
-                myframe.display.add(new JLabel(new ImageIcon(filename)), BorderLayout.CENTER);
-                myframe.pack();
-            }catch(Exception e){
-                System.out.println(e.getLocalizedMessage());
-                myframe.swapCard(Window.INTRO_ID);
-            }
+            myframe.clearDisplayCard();
+            JLabel label = new JLabel(verdict);
+            label.setFont(new Font("Sans-Serif", Font.BOLD, 48));
+            label.setForeground(Color.red);
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setVerticalAlignment(JLabel.CENTER);
+            myframe.display.add(label, BorderLayout.CENTER);
+            myframe.display.add(new JLabel(new ImageIcon(filename)), BorderLayout.CENTER);
+            myframe.pack();
+        }catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+            myframe.swapCard(Window.INTRO_ID);
         }
+    }
     public void setFilename(String f){
         filename = f;
     }
