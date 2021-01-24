@@ -75,7 +75,8 @@ def preprocess_inputs(lat, lng, date, tmax, tmin, prcp, snow, scaler):
     x = scaler.transform(x)
     
     return x
-    
+
+#comman line calls
 latitude = sys.argv[1]
 longitude = sys.argv[2]
 date = sys.argv[3]
